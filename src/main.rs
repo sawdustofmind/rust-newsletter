@@ -2,9 +2,13 @@ use std::net::TcpListener;
 use sqlx::PgPool;
 use newsletter::startup::run;
 use newsletter::configuration::get_configuration;
+use newsletter::telemetry::{get_subscriber,init_subscriber};
 
 #[tokio::main]
 async fn main() -> std::io::Result<()> {
+    let subscriber = get_subscriber("newletter".into(), "info".into());
+    init_subscriber(subscriber);
+
     let configuration = get_configuration().expect("Failed to read configuration.");
     let connection_pool = PgPool::connect(&configuration.database.connection_string())
         .await
