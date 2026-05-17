@@ -7,3 +7,4 @@ pub mod domain;
 pub mod email_client;
 
 pub use startup::run;
+pub use startup::get_connection_pool;
