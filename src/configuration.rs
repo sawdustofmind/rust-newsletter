@@ -26,6 +26,7 @@ pub struct ApplicationSettings {
     #[serde(deserialize_with = "deserialize_number_from_string")]
     pub port: u16,
     pub host: String,
+    pub base_url: String,
 }
 
 impl DatabaseSettings {
@@ -43,9 +44,9 @@ impl DatabaseSettings {
         };
 
         PgConnectOptions::new()
-            .host(&self.host)
-            .username(&self.username)
-            .password(&self.password.expose_secret())
+            .host(self.host.as_str())
+            .username(self.username.as_str())
+            .password(self.password.expose_secret())
             .port(self.port)
             .ssl_mode(ssl_mode)
     }
